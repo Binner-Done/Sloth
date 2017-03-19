@@ -8,17 +8,22 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 /**
- * Created by Jack on 19/03/2017.
+ * Created by TehKi on 3/19/2017.
  */
-public class HelpCommand implements Command {
+public class PingCommand implements Command {
+
     @Override
     public void onCommand(User user, TextChannel textChannel, Message message, String[] strings, Member member) {
+        long ping = message.getCreationTime().until(LocalDateTime.now().atOffset(ZoneOffset.UTC), ChronoUnit.MILLIS);
         textChannel.sendMessage(new EmbedBuilder()
-        .setAuthor("Sloth", null, textChannel.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                .setDescription("Sloth Bot \n __**Utility**__ \n`sHelp` - Displays this Help Message \n __**Moderation**__ \n`skick {Mention}` - Kick's a user \n`sban {Mention}` - Bans a user permanently")
-                .setColor(Color.GREEN)
+                .setAuthor("Sloth", null, textChannel.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                .setDescription("Sloth Bot \nThe ping of the bot is " + "`" + ping + "`" + " ms")
+                .setColor(Color.YELLOW)
                 .setThumbnail(textChannel.getJDA().getSelfUser().getEffectiveAvatarUrl())
                 .build())
                 .queue();
@@ -27,11 +32,12 @@ public class HelpCommand implements Command {
 
     @Override
     public String getCommand() {
-        return "help";
+        return "ping";
     }
 
     @Override
     public String getDescription() {
-        return "Shows help";
+        return "Shows connection";
     }
+
 }
